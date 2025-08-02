@@ -1,54 +1,103 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const Home = () => {
-    return (
-        <main className="container mx-auto px-4 py-8">
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold mb-4">Welcome to Newcastle</h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Discover your dream property in Bangladesh with our premium real estate services
-                </p>
-            </div>
+  const slides = [
+    {
+      image: "https://i.ibb.co/xtBNT44P/wallpaperflare-com-wallpaper-2.jpg",
+      title: "Find Your Villa",
+      description: "Nestora brings you closer to your perfect living space—no matter your style or budget."
+    },
+    {
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      title: "Luxury Living",
+      description: "Discover premium properties that redefine modern living standards."
+    },
+    {
+      image: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      title: "Dream Homes Await",
+      description: "Your ideal home is just a click away with our curated collection."
+    }
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  return (
+    <div className="relative">
+      {/* Hero Slider Section */}
+      <div className="relative h-[80vh] overflow-hidden">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          >
+            {/* Image with loading state */}
+            <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
+            <img
+              src={slide.image}
+              alt=""
+              className={`w-full h-full object-cover ${loaded && index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+              onLoad={() => setLoaded(true)}
+            />
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div className="text-yellow-500 mb-4">
-                        <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                    </div>
-                    <h2 className="text-xl font-semibold mb-2 text-center">Buy Property</h2>
-                    <p className="text-gray-600 text-center">
-                        Find your perfect home from our extensive collection of properties.
-                    </p>
+            {/* Overlay and content */}
+            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+            <div className="absolute inset-0 flex items-center">
+              <div className="max-w-7xl mx-auto px-4 text-white">
+                <div className="max-w-2xl">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                    {slide.title}
+                  </h1>
+                  <p className="text-lg md:text-xl mb-8">
+                    {slide.description}
+                  </p>
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-md transition-colors">
+                    Explore
+                  </button>
                 </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div className="text-yellow-500 mb-4">
-                        <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h2 className="text-xl font-semibold mb-2 text-center">Sell Property</h2>
-                    <p className="text-gray-600 text-center">
-                        Get the best value for your property with our professional services.
-                    </p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div className="text-yellow-500 mb-4">
-                        <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <h2 className="text-xl font-semibold mb-2 text-center">Rent Property</h2>
-                    <p className="text-gray-600 text-center">
-                        Discover quality rental properties with flexible terms.
-                    </p>
-                </div>
+              </div>
             </div>
-        </main>
-    );
+          </div>
+        ))}
+
+        {/* Slider Controls */}
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full ${index === currentSlide ? 'bg-white' : 'bg-white bg-opacity-50'}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={() => setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Home;
